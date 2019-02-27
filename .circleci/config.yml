@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  clone:
     docker:
       - image: circleci/node:latest
     steps:
@@ -16,3 +16,10 @@ jobs:
             - .git
       - run: git branch -a
       - run: git tag -l
+
+workflows:
+  version: 2
+  clone:
+    jobs:
+      - clone:
+          filters: { tags: { only: /.*/ } }
