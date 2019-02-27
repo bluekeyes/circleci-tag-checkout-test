@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - restore_cache:
+          keys:
+            - v1-src-{{ .Branch }}-{{ .Revision }}
+            - v1-src-{{ .Branch }}-
+            - v1-src-
+      - checkout
+      - save_cache:
+          key: v1-src-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .git
+      - run: git branch -a
+      - run: git tag -l
